@@ -4,7 +4,14 @@
     "enabled": true
   },
   "files": {
-    "ignore": ["node_modules", "dist", "build", ".next", "coverage", ".git", ".react-router"]
+    "ignore": [
+      "node_modules",
+      "dist",
+      "build",
+      "coverage",
+      ".git",
+      ".react-router"
+    ]
   },
   "linter": {
     "enabled": true,
@@ -17,7 +24,7 @@
     "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 100
+    "lineWidth": 80
   },
   "javascript": {
     "formatter": {
