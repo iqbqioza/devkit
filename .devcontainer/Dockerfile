@@ -1,5 +1,14 @@
 FROM debian:bookworm-slim
 
+# Set user variables
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+ENV USERNAME=${USERNAME}
+ENV USER_UID=${USER_UID}
+ENV USER_GID=${USER_GID}
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     curl \
@@ -20,14 +29,14 @@ ENV NVM_VERSION=v0.40.3
 ENV NODE_VERSION=v22.15.0
 
 # Create non-root user
-RUN groupadd -g 1000 vscode \
-    && useradd -u 1000 -g vscode -ms /bin/bash vscode
+RUN groupadd -g ${USER_GID} ${USERNAME} \
+    && useradd -u ${USER_UID} -g ${USERNAME} -ms /bin/bash ${USERNAME}
 
 # Switch to non-root user
-USER vscode
+USER ${USERNAME}
 
 # Set up NVM for the non-root user
-ENV NVM_DIR=/home/vscode/.nvm
+ENV NVM_DIR=/home/${USERNAME}/.nvm
 RUN mkdir -p $NVM_DIR \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
@@ -41,5 +50,5 @@ USER root
 RUN apt-get update && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/*
 
-USER vscode
+USER ${USERNAME}
 EXPOSE 3000
